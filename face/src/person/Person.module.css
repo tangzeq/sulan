@@ -1,0 +1,100 @@
+.container_person body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+.container_person {
+    padding-left: 1%;
+    padding-right: 1%;
+    margin: 0 auto;
+    background-color: #f1f1f1;
+    height: calc(100vh);
+    text-align: end;
+    border-left: ridge;
+    border-right: ridge;
+}
+.container_person header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10%;
+}
+.container_person .img {
+    flex-grow: 1;
+    text-align: -webkit-center;
+}
+.container_person h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 36px;
+    font-weight: 700;
+}
+.container_person h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+.container_person ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.container_person li {
+    margin-bottom: 10px;
+}
+.container_person a {
+    color: #0066cc;
+    text-decoration: none;
+}
+.container_person .fa {
+    margin-right: 5px;
+}
+.container_person .date {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 700;
+}
+.container_person .position {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.container_person .degree {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.container_person section:not(:last-child) {
+    margin-bottom: 50px;
+}
+.container_person .messages {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    height: 60%;
+    overflow-y: scroll;
+    padding: 10px;
+    scrollbar-width: none; /* firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    text-align-last: right;
+}
+.container_person .messages::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}
+
+.lable {
+    padding-left: 5px;
+}
+
+.val {
+    border: 0;
+    width: calc(100% - 60px);
+    text-align: end;
+}
+.val:focus-visible {
+    border: 0;
+}

@@ -1,0 +1,77 @@
+
+.container_center {
+    padding-left: 1%;
+    padding-right: 1%;
+    margin: 0 auto;
+    background-color: #f1f1f1;
+    height: calc(100vh);
+    text-align: end;
+    border-left: ridge;
+    border-right: ridge;
+    display: flex;
+}
+
+.me video {
+    width: 100%;
+    max-height: calc(100vh - 50px) !important;
+}
+
+.she video {
+    max-width: 100% !important;
+    max-height: calc(100vh - 50px) !important;
+    -webkit-transform: translate3d(0,0,0) !important;
+    transform: translate3d(0,0,0) !important;
+}
+
+.she div {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: calc(100vh - 50px) !important;
+}
+
+
+.broadcasts_list {
+    margin: 50px auto;
+    max-width: 600px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    border-bottom: solid white;
+    border-top: solid white;
+}
+.broadcasts_list::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}
+.broadcasts_list_empty {
+    font-style: italic;
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    border-bottom: solid white;
+}
+.broadcasts_list_item {
+    align-items: center;
+    margin-bottom: 15px;
+}
+.broadcast_link {
+    color: #007bff;
+    text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 80%;
+}
+.file_join_button {
+    margin-left: 10px;
+    padding: 4px 8px;
+    border: none;
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #54dc35;
+    cursor: pointer;
+}
+.broadcasts {
+    border: 1px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    width: calc(100vw - 400px);
+}

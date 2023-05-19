@@ -1,0 +1,117 @@
+
+.container_left body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+}
+.container_left {
+    padding-left: 1%;
+    padding-right: 1%;
+    margin: 0 auto;
+    background-color: #f1f1f1;
+    height: calc(100vh);
+    text-align: start;
+    border-left: ridge;
+    border-right: ridge;
+}
+.container_left header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container_left .img {
+    flex-grow: 1;
+}
+.notices {
+    width: calc(100vw - 172px);
+}
+.notice {
+    display: inline-flex;
+}
+.container_left h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 36px;
+    font-weight: 700;
+}
+.container_left h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+}
+.container_left ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.container_left li {
+    margin-bottom: 10px;
+}
+.container_left a {
+    color: #0066cc;
+    text-decoration: none;
+}
+.container_left .fa {
+    margin-right: 5px;
+}
+.container_left .date {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 700;
+}
+.container_left .position {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.container_left .degree {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.container_left section:not(:last-child) {
+    margin-bottom: 50px;
+}
+
+.container_left .messages {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    max-height: 10vh;
+    min-height: 10vh;
+    overflow-y: scroll;
+    padding: 10px;
+    scrollbar-width: none; /* firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.container_left .messages::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+}
+.host {
+    width: 60%;
+    min-width: 85px;
+}
+.hostlable {
+    min-width: 71px;
+}
+.port {
+    width: 20%;
+    min-width: 37px;
+}
+.portlable {
+    min-width: 36px;
+}
+.start {
+    width: 10%;
+    min-width: 44px;
+    margin-left: 3px;
+    border: 0;
+    background-color: antiquewhite;
+}
+.startlable {
+    min-width: 36px;
+}
