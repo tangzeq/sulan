@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="8.0.1" transformSequenceNumber="3">
+  <directoryPresets config="D:/ideaWorkspace/message/face/public/static/ico" />
+  <application name="速联" distributionSourceDir="D:/working/exe4j/demo/速联" />
+  <executable name="速联" wrapperType="embed" iconSet="true" iconFile="D:/ideaWorkspace/message/face/public/static/ico/logo.ico" executableDir="." redirectStderr="false" executableMode="console" />
+  <java mainClass="org.springframework.boot.loader.JarLauncher" vmParameters="-Dserver.port=8081" preferredVM="server" minVersion="1.8">
+    <searchSequence>
+      <directory location="./jre" />
+    </searchSequence>
+    <classPath>
+      <archive location="D:/ideaWorkspace/message/customer/target/customer-null.jar" failOnError="false" />
+    </classPath>
+  </java>
+</exe4j>
