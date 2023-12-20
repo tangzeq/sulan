@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -31,10 +32,9 @@ import java.util.concurrent.*;
 @Component
 public class BroadCastCore {
     private final static String dir = "tmpdir/broadcast/";
-    private static volatile ExecutorService fixedThreadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private static volatile ConcurrentHashMap<Long, String> userM3u8 = new ConcurrentHashMap<>();
     private static volatile ConcurrentHashMap<Long, LinkedBlockingQueue<MultipartFile>> userFile = new ConcurrentHashMap<>();
-    private static volatile Cache<Long, Long> userCache = CacheBuilder.newBuilder().expireAfterWrite(60, TimeUnit.SECONDS).build();
+    private static volatile Cache<Long, Long> userCache = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofSeconds(60)).build();
 
     @SneakyThrows
     public static synchronized String addFile(Long user, MultipartFile file) {
@@ -42,7 +42,7 @@ public class BroadCastCore {
             String name = user + "-" + System.nanoTime() + ".m3u8";
             Files.createFile(Paths.get(dir + name));
             userM3u8.put(user, name);
-            fixedThreadPool.execute(new Broad(user));
+            Thread.startVirtualThread(new Broad(user));
         }
         if (!userFile.containsKey(user)) {
             userFile.put(user, new LinkedBlockingQueue<MultipartFile>());

@@ -1,11 +1,11 @@
 package com.netty.customer.storage;
 
+import jakarta.annotation.Resource;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 
 /**

@@ -4,16 +4,13 @@ import com.netty.customer.core.NettyCustomer;
 import com.netty.customer.core.NettyServer;
 import com.netty.customer.handler.CustomerHandler;
 import com.netty.customer.handler.ServerHandler;
+import jakarta.annotation.Resource;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.Resource;
-import java.awt.*;
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.netty.customer.utils.NetUtils.host;
@@ -27,8 +24,6 @@ public class NettyRunner implements ApplicationRunner, Ordered {
     @Resource
     private Environment environment;
     @Resource
-    private ExecutorService fixedThreadPool;
-    @Resource
     private ServerHandler serverHandler;
     @Resource
     private NettyServer nettyServer;
@@ -41,7 +36,7 @@ public class NettyRunner implements ApplicationRunner, Ordered {
     public void run(ApplicationArguments args) throws Exception {
         String host = host();
         AtomicInteger port = new AtomicInteger(0);
-        fixedThreadPool.execute(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -53,7 +48,7 @@ public class NettyRunner implements ApplicationRunner, Ordered {
         });
         while (port.get() <= 0) {
         }
-        fixedThreadPool.execute(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -63,7 +58,7 @@ public class NettyRunner implements ApplicationRunner, Ordered {
                 }
             }
         });
-        fixedThreadPool.execute(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -74,12 +69,24 @@ public class NettyRunner implements ApplicationRunner, Ordered {
             }
         });
         // Launch browser
-        Runtime.getRuntime().exec("explorer \""+"http://"+host+":"+Integer.parseInt(environment.getProperty("local.server.port"))+"\"");
+        browser(host);
     }
 
     @Override
     public int getOrder() {
         return Ordered.LOWEST_PRECEDENCE;
+    }
+
+    public void browser(String host) {
+        String sysType = System.getProperty("os.name").toLowerCase();
+        String url= new StringBuilder().append("http://").append(host).append(":").append(Integer.parseInt(environment.getProperty("local.server.port"))).toString();
+        System.out.println("browser = " + url);
+        if(sysType.contains("linux")) {
+        } else if(sysType.contains("windows")) {
+            try {
+                Runtime.getRuntime().exec("explorer \""+url+"\"");
+            } catch(Throwable e){}
+        }
     }
 
     private String[] getCommand(String url) {

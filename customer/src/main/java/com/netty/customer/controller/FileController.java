@@ -5,6 +5,8 @@ import com.netty.customer.storage.BaseFile;
 import com.netty.customer.storage.BaseIndex;
 import com.netty.customer.storage.BaseMemory;
 import com.netty.customer.storage.UserStorage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
@@ -12,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;

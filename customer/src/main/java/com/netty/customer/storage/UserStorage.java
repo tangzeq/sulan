@@ -5,14 +5,15 @@ import com.alibaba.fastjson.JSON;
 import com.netty.customer.message.user.BaseUser;
 import com.netty.customer.message.user.LoginUser;
 import com.netty.customer.utils.Md5Utils;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import javax.lang.model.element.Modifier.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,11 +96,18 @@ public class UserStorage {
         return Math.abs(Long.valueOf(Md5Utils.getMD5((username+ NetUtil.getLocalMacAddress()).getBytes()).hashCode()));
     }
 
-    private static boolean safeCompareTo(String str1, String str2) {
+    /**
+     *
+     * @param now 对比的数据
+     * @param old 存储的数据
+     * @return
+     */
+    private static boolean safeCompareTo(String now, String old) {
         boolean equals = true;
-        char v1[] = str1.toCharArray();
-        char v2[] = str2.toCharArray();
-        int lim = str1.length();
+        char v1[] = now.toCharArray();
+        char v2[] = old.toCharArray();
+        //使用old的长度，固定比较次数，防止比较次数过短或者过长
+        int lim = old.length();
         int k = 0;
         while (k < lim) {
             char c1 = v1[k];
@@ -108,6 +116,10 @@ public class UserStorage {
                 equals = false;
             }
             k++;
+        }
+        //增加一次长度对比
+        if(now.length() != old.length()) {
+            equals = false;
         }
         return equals;
     }

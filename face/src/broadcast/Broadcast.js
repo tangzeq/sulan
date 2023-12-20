@@ -63,7 +63,7 @@ const Broadcast = () => {
             if (mediaRecorder.current && mediaRecorder.current.state === 'recording' && recording.current !== null) {
                 mediaRecorder.current.stop()
             }
-        }, 4000)
+        }, 2000)
         streams.current = await navigator.mediaDevices
             .getUserMedia({
                 audio: true,
@@ -144,6 +144,9 @@ const Broadcast = () => {
                 <div id="showtv" className={styles.she +" data-vjs-player"}>
                     {m3u8 && (<HlsPlayer
                         src={m3u8}
+                        preload={'auto'}
+                        loop={true}
+                        webkit-playsinline={true}
                         autoPlay={true}
                         controls={false}
                         className={styles.video_js}

@@ -6,6 +6,8 @@ import com.netty.customer.message.user.BaseUser;
 import com.netty.customer.storage.BaseMemory;
 import com.netty.customer.storage.BroadcastStorage;
 import com.netty.customer.storage.UserStorage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,10 @@ import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxProcessor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 功能描述：音视频直播
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class BroadcastController {
 
     private static volatile ConcurrentHashMap<Long, FluxProcessor<String, String>> processors = new ConcurrentHashMap<Long, FluxProcessor<String, String>>();
-    private static volatile Cache<Long, BaseUser> users = CacheBuilder.newBuilder().expireAfterWrite(20, TimeUnit.SECONDS).build();
+    private static volatile Cache<Long, BaseUser> users = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofSeconds(20)).build();
 
     @GetMapping("show/{user}")
     public Flux show(@PathVariable Long user, HttpServletResponse response) throws Exception {

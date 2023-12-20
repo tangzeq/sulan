@@ -2,13 +2,13 @@ package com.netty.customer.storage;
 
 import com.netty.customer.broadcast.BroadCastCore;
 import com.netty.customer.message.user.BaseUser;
+import jakarta.annotation.Resource;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;

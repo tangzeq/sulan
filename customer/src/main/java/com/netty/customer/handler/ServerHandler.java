@@ -12,16 +12,17 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static com.netty.customer.utils.ChannelUtils.remoteHost;
 import static com.netty.customer.utils.ChannelUtils.remotePort;
@@ -33,7 +34,7 @@ import static com.netty.customer.utils.ChannelUtils.remotePort;
 @ChannelHandler.Sharable
 @Component
 public class ServerHandler extends ChannelInboundHandlerAdapter {
-    static volatile public Cache<Long, Object> messageCache = CacheBuilder.newBuilder().expireAfterAccess(60, TimeUnit.SECONDS).build();
+    static volatile public Cache<Long, Object> messageCache = CacheBuilder.newBuilder().expireAfterAccess(Duration.ofSeconds(60)).build();
     static volatile ConcurrentLinkedQueue<BaseMessage> message = new ConcurrentLinkedQueue<>();
     static volatile Map<String, ChannelHandlerContext> customerCache = new ConcurrentHashMap<>();
     static volatile Map<String, String> serverCache = new ConcurrentHashMap<String,String>();
@@ -43,9 +44,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     static volatile public Integer port = -1;
     static volatile public boolean active = true;
     @Resource
-    CustomerHandler customerHandler;
-    @Resource
-    private ExecutorService scheduledThreadPool;
+    @Lazy
+    private CustomerHandler customerHandler;
+
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
@@ -80,7 +81,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         if (online == 0) {
             System.out.println("服务端 激活");
             online++;
-            scheduledThreadPool.submit(new Runnable() {
+            Thread.startVirtualThread(new Runnable() {
                 @SneakyThrows
                 @Override
                 public void run() {
@@ -98,7 +99,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                                             Thread.sleep(50);
                                         }
 //                                        System.out.println(ChannelUtils.localHost(context) + ":" + ChannelUtils.localPort(context) + "服务端 向" + ChannelUtils.remoteHost(context) + ":" + ChannelUtils.remotePort(context) + "发送信息, msg = " + s);
-                                        scheduledThreadPool.submit(new Runnable() {
+                                        Thread.startVirtualThread(new Runnable() {
                                             @SneakyThrows
                                             @Override
                                             public void run() {
@@ -114,7 +115,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                             while (!active) {
                                 Thread.sleep(50);
                             }
-                            scheduledThreadPool.submit(new Runnable() {
+                            Thread.startVirtualThread(new Runnable() {
                                 @SneakyThrows
                                 @Override
                                 public void run() {

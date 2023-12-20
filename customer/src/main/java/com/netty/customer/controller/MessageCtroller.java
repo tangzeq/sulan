@@ -7,6 +7,8 @@ import com.netty.customer.message.core.TextMessage;
 import com.netty.customer.storage.BaseLink;
 import com.netty.customer.storage.MessageStorage;
 import com.netty.customer.storage.UserStorage;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.netty.customer.utils.ChatGPTUtils.chat;
@@ -33,8 +32,6 @@ import static com.netty.customer.utils.ChatGPTUtils.chat;
 @Slf4j
 public class MessageCtroller {
     @Resource
-    private ExecutorService fixedThreadPool;
-    @Resource
     private CustomerHandler customerHandler;
 
     @PostMapping("sendMessage")
@@ -46,7 +43,7 @@ public class MessageCtroller {
     @PostMapping("sendChatGPT")
     public BaseMessage<TextMessage> sendChatGPT(HttpServletRequest request, @RequestBody TextMessage message) {
         BeanUtils.copyProperties(UserStorage.get(request).getBs(), message);
-        fixedThreadPool.submit(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -71,7 +68,7 @@ public class MessageCtroller {
                 .limitRate(5)
                 .doOnError(e -> System.out.println())
                 .retry()
-                .publishOn(Schedulers.elastic())
+                .publishOn(Schedulers.boundedElastic())
                 .map(i -> {
                     BaseLink storage = MessageStorage.read(type, setp.get());
                     while (ObjectUtils.isEmpty(storage)) {

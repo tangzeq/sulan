@@ -1,12 +1,11 @@
 package com.netty.customer.configs;
 
+import jakarta.servlet.MultipartConfigElement;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
-
-import javax.servlet.MultipartConfigElement;
 
 /**
  * 功能描述：文件配置

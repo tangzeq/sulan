@@ -1,11 +1,11 @@
 package com.netty.customer.configs;
 
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

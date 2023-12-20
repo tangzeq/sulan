@@ -35,10 +35,11 @@ public class EhcacheConfig {
         getDiskInfo();
         getCahceInfo();
         File file = new File("tmpdir");
+        System.out.println("初始化存储文件 ："+file.getCanonicalPath());
         File base = new File((file.getCanonicalPath().split(":"))[0] + ":\\");
         ResourcePools resourcePools = ResourcePoolsBuilder.newResourcePoolsBuilder()
                 .heap(100, EntryUnit.ENTRIES)
-                .disk(base.getTotalSpace() / 1024 / 1024, MemoryUnit.MB, true)
+                .disk(base.getTotalSpace() / 1024 / 1024 <= 0 ? 100: base.getTotalSpace() / 1024 / 1024 , MemoryUnit.MB, true)
                 .build();
         CacheManager cacheManager = CacheManagerBuilder
                 .newCacheManagerBuilder()

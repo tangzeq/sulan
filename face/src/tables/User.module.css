@@ -1,0 +1,15 @@
+.container_user {
+    width: calc(100vw);
+    height: calc(100vh);
+    display: inline-table;
+    background-color: whitesmoke;
+}
+.container_user .search {
+    width: 100%;
+    height: 150px;
+    padding-top: 30px;
+}
+.container_user .list {
+    width: 100%;
+    height: calc(100vh - 150px - 30px);
+}

@@ -8,17 +8,16 @@ import com.netty.customer.message.user.BaseUser;
 import com.netty.customer.message.user.LoginUser;
 import com.netty.customer.storage.BaseMemory;
 import com.netty.customer.storage.UserStorage;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -30,8 +29,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
-    @Resource
-    private ExecutorService fixedThreadPool;
     @Resource
     private ServerHandler serverHandler;
     @Resource
@@ -67,7 +64,7 @@ public class LoginController {
     @GetMapping("server/{host}/{port}")
     public String server(HttpServletRequest request,@PathVariable String host, @PathVariable Integer port) throws Exception {
         AtomicInteger integer = new AtomicInteger(port);
-        fixedThreadPool.execute(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -89,7 +86,7 @@ public class LoginController {
      */
     @GetMapping("connect/{inetHost}/{port}")
     public String connect(HttpServletRequest request,@PathVariable String inetHost, @PathVariable Integer port) throws Exception {
-        fixedThreadPool.execute(new Runnable() {
+        Thread.startVirtualThread(new Runnable() {
             @Override
             public void run() {
                 try {

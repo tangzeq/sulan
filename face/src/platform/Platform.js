@@ -7,6 +7,7 @@ import Note from "../note/Note";
 import ChatRoom from "../chatRoom/ChatRoom";
 import File from "../file/File";
 import Broadcast from "../broadcast/Broadcast";
+import User from "../tables/User";
 function Platform () {
     const chatRoom = () => {
         Index.root.render(
@@ -64,6 +65,14 @@ function Platform () {
             </React.StrictMode>
         );
     }
+    const user = () => {
+      Index.root.render(
+          <React.StrictMode>
+              <button className={styles.close} onClick={platform}>🔠</button>
+              <User />
+          </React.StrictMode>
+      )
+    }
     return (
         <div className={styles.platform}>
             <div className={styles.card}>
@@ -112,6 +121,14 @@ function Platform () {
                         <img title="视频" alt="视频" src="../static/ico/file.png"/>
                     </div>
                     <h5>视频</h5>
+                </div>
+            </div>
+            <div className={styles.card}>
+                <div className={styles.plan}>
+                    <div className={styles.node} onClick={user}>
+                        <img title="用户" alt="用户" src="../static/ico/file.png"/>
+                    </div>
+                    <h5>用户</h5>
                 </div>
             </div>
         </div>

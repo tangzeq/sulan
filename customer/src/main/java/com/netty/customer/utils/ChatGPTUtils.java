@@ -2,25 +2,20 @@ package com.netty.customer.utils;
 
 import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
+import jakarta.annotation.Resource;
 import okhttp3.*;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.lang.instrument.Instrumentation;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 功能描述：ChatGPT工具类
@@ -29,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ChatGPTUtils {
 
+    private static Instrumentation instrumentation;
     static volatile Cache<String, ConcurrentLinkedDeque> gpt;
 
     @Resource
@@ -156,7 +152,7 @@ public class ChatGPTUtils {
             , "kotov_aleksandr_1980_15_6@mail.ru----g5GWDcmk"
     };
 
-    private final static OkHttpClient client = new OkHttpClient.Builder().readTimeout(1, TimeUnit.DAYS).connectTimeout(1, TimeUnit.DAYS).build();
+    private final static OkHttpClient client = new OkHttpClient.Builder().readTimeout(Duration.ofDays(1)).connectTimeout(Duration.ofDays(1)).build();
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/";
 
     public static String chat(String user, String message) throws Throwable {
@@ -172,7 +168,7 @@ public class ChatGPTUtils {
                 content.pollFirst();
             }
             content.addLast(MapUtil.builder().put("role", "user").put("content", message).build());
-            while (ObjectSizeCalculator.getObjectSize(content) / 5 > 4097) {
+            while (instrumentation.getObjectSize(content) > 4097) {
                 content.pollFirst();
             }
             //请求参数
