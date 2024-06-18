@@ -1,0 +1,51 @@
+/* ImageUpload.css */
+.image_upload {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.image_preview {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.image_actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.image_preview:hover .image_actions {
+    opacity: 1;
+}
+
+.image_actions button {
+    margin: 4px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+}

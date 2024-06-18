@@ -13,3 +13,77 @@
     width: 100%;
     height: calc(100vh - 150px - 30px);
 }
+
+/* UserTable.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.user-management {
+    background-color: #e0f7fa;
+    color: #3350c1;
+}
+
+.user-management h1 {
+    color: #3350c1;
+}
+.flush {
+    opacity: 1;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 999;
+    width: calc(100vw);
+    height: calc(100vh);
+    background-color: rgb(137 144 143 / 50%);
+    color: white;
+    padding: 0px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: grid;
+    place-items: center;
+}
+
+.flush .panle {
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #a6c0c8;
+    font-family: 'Arial', sans-serif;
+}
+.panle .hidden {
+    display: none;
+}
+.panle .row {
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: flex-start; /* 垂直居中 */
+}
+.panle input,textarea{
+    border:0;
+}
+.row .image {
+    width: 150px;
+    height: 200px;
+}
+.row .message {
+    padding: 10px;
+}
+.panle .cancel{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    color: #f44336;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.panle .confirm{
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    color: #36c1f4;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}

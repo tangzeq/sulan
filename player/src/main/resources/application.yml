@@ -1,0 +1,4 @@
+spring:
+  environment-config:
+    default-sene: defaultSene
+    font-size: 80

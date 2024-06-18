@@ -1,22 +1,187 @@
-table {
+div,input {
+    outline:lightgreen;
+}
+div:focus-visible,input:focus-visible {
+    outline:lightgreen;
+}
+
+.bottom_list{
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: calc(100vh);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.bottom_list .filter{
+    max-height:50px;
+    height:50px;
+    line-height: 50px;
+    font-size: larger;
+    font-family: monospace;
+    font-style: italic;
+    background-color: lightblue;
+    color: chartreuse;
+}
+.bottom_list .filter .button,.button:focus-visible{
+    max-height:50px;
+    height:50px;
+    line-height: 50px;
+    font-size: larger;
+    font-family: monospace;
+    font-style: italic;
+    background-color: lightblue;
+    color: #598d26;
+    border: 0;
+    outline: 0;
+    width: 50px;
+}
+.bottom_list .filter .globalfilter{
+    max-height:50px;
+    line-height: 50px;
+    font-size: larger;
+    font-family: monospace;
+    font-style: italic;
+    border: 0;
+    outline: 0;
+    height: 50% !important;
+    color: black !important;
+    text-align: center !important;
+}
+.bottom_list .filter .button:hover{
+    color:whitesmoke;
+}
+.bottom_list .header{
+}
+.bottom_list .body{
+    background-color: aliceblue;
+    overflow: scroll;
+    margin-right: calc(100% - 100vw);
+    border: 1px solid #f0f0f0;
+    flex-grow: 1;
+}
+
+.bottom_list .t_b_1{
+    border: 1px solid #f0f0f0;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+    line-height: 50px;
+    height: 50px;
+}
+.bottom_list .t_b_1 .filter{
+    position: relative; /* 同样绝对定位 */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background-color: lightgreen; /* 为了可视化效果 */
+    z-index: 2; /* 高于第一个div的z-index */
+    opacity: 1; /* 初始状态设置为完全透明，即隐藏 */
+    transition: opacity 0.3s ease; /* 添加过渡效果使显示和隐藏更平滑 */
+    margin-top: -50px;
 }
-thead {
-
+.bottom_list .t_b_1 input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px lightgreen;
+    padding: 0;
+    text-align: center;
 }
-tbody {
-
+.bottom_list .t_b_1 input:focus-visible{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px lightgreen;
+    padding: 0;
 }
-tfoot {
-
+.bottom_list .t_b_1 .cell{
+    position: relative; /* 绝对定位使第一个div可以放在容器内任何位置 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue; /* 为了可视化效果 */
+    z-index: 3; /* 设定层叠顺序，确保第一个div显示在第二个div上方 */
 }
-tr {
-
+.bottom_list .t_b_1:hover .cell {
+    z-index: 2; /* 鼠标移入容器时，第一个div变为透明 */
 }
-th {
-
+.bottom_list .t_b_1:hover .filter {
+    z-index: 3; /* 鼠标移入容器时，第一个div变为透明 */
 }
-td {
+.bottom_list .t_b_1 .label{
+    line-height: 40px;
+    list-style-type: none;
+    text-align: center;
+}
+.bottom_list .t_b_1 .remark{
+    font-size: 12px;
+    line-height: 0px;
+    list-style-type: none;
+    text-align: center;
+}
+.bottom_list .t_b_2{
+    border: 1px solid #f0f0f0;
+    height: 50px;
+    flex: 1;
+    text-align: center;
+    line-height: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
+.bottom_list .header .row{
+    background:#f9f9f9;
+    display: flex;
+    justify-content: center;
+    padding-right: calc(100vw - 100% + 10px);
+}
+.bottom_list .body .row{
+    background:#fff;
+    display: flex;
+    justify-content: center;
+}
+.row .t_b_1:nth-of-type(1),
+.row .t_b_1:nth-of-type(2),
+.row .t_b_2:nth-of-type(1),
+.row .t_b_2:nth-of-type(2){
+    max-width: 50px;
+}
+.bottom_list .selector input{
+    margin: 0;
+}
+
+::-webkit-scrollbar {
+       width: 10px;
+       height: 10px;
+   }
+
+::-webkit-scrollbar-track {
+    width: 6px;
+    /*background: rgba(#101F1C, 0.1);*/
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(144,147,153,.5);
+    background-clip: padding-box;
+    min-height: 28px;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+    transition: background-color .3s;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(144,147,153,.3);
 }

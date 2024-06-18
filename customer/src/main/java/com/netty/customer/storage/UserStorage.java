@@ -11,11 +11,11 @@ import lombok.SneakyThrows;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import javax.lang.model.element.Modifier.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -27,6 +27,16 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class UserStorage {
 
     private static volatile  Cache<Long, BaseMemory> user;
+
+    public static List<LoginUser> userList() {
+        List<LoginUser> list = new ArrayList<>();
+        Iterator<Cache.Entry<Long, BaseMemory>> iterator = user.iterator();
+        while (iterator.hasNext()) {
+            list.add((LoginUser) iterator.next().getValue().getBs());
+        }
+        return list;
+    }
+
 
     @Resource
     public void makeCahe(CacheManager cacheManager) {
@@ -54,6 +64,10 @@ public class UserStorage {
         }
     }
 
+    public static void del(Long userId) {
+        user.remove(userId);
+    }
+
     @SneakyThrows
     public static BaseMemory get(HttpServletRequest request) {
         try {
@@ -64,17 +78,32 @@ public class UserStorage {
         return getUser(Long.valueOf(request.getHeader("token")));
     }
 
+    public static BaseMemory add(LoginUser lu) {
+        Assert.isTrue(!ObjectUtils.isEmpty(lu.getUsername()),"请确认用户账号");
+        Long index = makeIndex(lu.getUsername());
+        BaseMemory storage = null;
+        if(user.containsKey(index)) storage = user.get(index);
+        Assert.isTrue(!ObjectUtils.isEmpty(storage),"用户已存在！");
+        lu.setUserId(index);
+        lu.setIndex(index);
+        lu.setTime(System.currentTimeMillis());
+        storage.setIndex(index);
+        storage.setBs(lu);
+        storage.setMemory(new ConcurrentHashMap());
+        user.put(index,storage);
+        return storage;
+    }
+
     public static BaseMemory update(LoginUser lu) throws Exception {
         BaseMemory storage = user.get(lu.getUserId());
         if(ObjectUtils.isEmpty(storage)) {
             throw new Exception("用户不存在");
         }
-        storage.getBs().setName(lu.getName());
+        storage.setBs(lu);
         storage.getBs().setPicture(lu.getPicture());
         user.put(lu.getUserId(),storage);
         return storage;
     }
-
     public static BaseMemory changePassword(Long userId, String old, String now) throws Exception {
         BaseMemory storage = user.get(userId);
         if(ObjectUtils.isEmpty(storage)) {

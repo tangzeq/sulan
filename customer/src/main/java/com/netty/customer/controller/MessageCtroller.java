@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -60,7 +61,7 @@ public class MessageCtroller {
     }
 
     @GetMapping(value = "onLineMessage/{type}/{index}")
-    public Flux<String> onLineMessage(HttpServletRequest request, @PathVariable Integer type, @PathVariable Long index) {
+    public Flux<byte[]> onLineMessage(HttpServletRequest request, @PathVariable Integer type, @PathVariable Long index) {
         index = index.compareTo(0l) == 0 ? UserStorage.get(request).getMemory().get(type) == null ? 0l : (Long) UserStorage.get(request).getMemory().get(type) : index;
         AtomicLong setp = new AtomicLong(index);
         return Flux
@@ -81,7 +82,11 @@ public class MessageCtroller {
                     }
                     setp.set(storage.getIndex());
                     UserStorage.get(request).getMemory().put(type, setp.get());
-                    return JSON.toJSONString(storage);
+                    try {
+                        return JSON.toJSONString(storage).getBytes("UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
     }
 
