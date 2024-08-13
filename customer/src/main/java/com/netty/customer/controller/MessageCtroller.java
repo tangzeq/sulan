@@ -1,5 +1,6 @@
 package com.netty.customer.controller;
 
+import cn.hutool.core.util.BooleanUtil;
 import com.alibaba.fastjson.JSON;
 import com.netty.customer.handler.CustomerHandler;
 import com.netty.customer.message.core.BaseMessage;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -37,12 +39,14 @@ public class MessageCtroller {
 
     @PostMapping("sendMessage")
     public BaseMessage<TextMessage> sendMessage(HttpServletRequest request, @RequestBody TextMessage message) {
+        Assert.isTrue(!ObjectUtils.isEmpty(message.getMessage()) && message.getMessage().length()<=4000,"发送信息长度应为1~4000");
         BeanUtils.copyProperties(UserStorage.get(request).getBs(), message);
         return customerHandler.sendMessage(message);
     }
 
     @PostMapping("sendChatGPT")
     public BaseMessage<TextMessage> sendChatGPT(HttpServletRequest request, @RequestBody TextMessage message) {
+        Assert.isTrue(!ObjectUtils.isEmpty(message.getMessage()) && message.getMessage().length()<=4000,"发送信息长度应为1~4000");
         BeanUtils.copyProperties(UserStorage.get(request).getBs(), message);
         Thread.startVirtualThread(new Runnable() {
             @Override
